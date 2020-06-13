@@ -129,6 +129,7 @@ public class QuestionManager {
 
     /**
      * 将新的选项插入数据库
+     *
      * @param newOption 待插入的选项
      */
     public static void addOption(Option newOption) throws SQLException {
@@ -143,6 +144,7 @@ public class QuestionManager {
 
     /**
      * 将新的题目插入数据库，同时维护选项与题目的关系
+     *
      * @param newQuestion 待插入的题目
      */
     public static void addQuestion(Question newQuestion) throws SQLException {
@@ -164,12 +166,16 @@ public class QuestionManager {
 
     /**
      * 将新的问卷插入数据库，同时维护问题与问卷的关系
+     *
      * @param newQuestionnaire 待插入的问卷
      */
     public static void addQuestionnaire(Questionnaire newQuestionnaire) throws SQLException {
         int id = newQuestionnaire.getId();
         String description = newQuestionnaire.getDescription();
         User maker = newQuestionnaire.getMaker();
+        if (!maker.isAdministrator()) {
+            return;
+        }
         String[] parameters = {String.valueOf(id), description, maker.getUsername()};
         if (getQuestionnaire(id) != null) {
             return;

@@ -4,6 +4,7 @@ import java.sql.*;
 
 /**
  * @author 软工1801温蟾圆
+ * @date 2020/06/11
  */
 public class Connect {
     private Connection connect = null;
