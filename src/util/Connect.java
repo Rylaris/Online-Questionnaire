@@ -27,14 +27,28 @@ public class Connect {
         return connect;
     }
 
+    /**
+     * 执行查询语句
+     *
+     * @param statement 查询语句
+     * @param parameters 查询语句中的参数
+     * @return 返回查询结果
+     */
     public static ResultSet executeSelect(String statement, String[] parameters) throws SQLException {
         return getPrepared(statement, parameters).executeQuery();
     }
 
+    /**
+     * 执行更新语句
+     *
+     * @param statement 更新语句
+     * @param parameters 更新语句中的参数
+     * @return 返回更新结果
+     */
     public static int executeUpdate(String statement, String[] parameters) throws SQLException {
         return getPrepared(statement, parameters).executeUpdate();
     }
-
+    
     private static PreparedStatement getPrepared(String statement, String[] parameters) throws SQLException {
         Connect connect = new Connect();
         Connection connection = connect.getConnection("JavaWeb", "root", "zxcvbnm123");
