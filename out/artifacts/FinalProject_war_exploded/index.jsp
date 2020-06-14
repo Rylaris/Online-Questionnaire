@@ -9,22 +9,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>在线问卷系统-登录</title>
+    <link rel="stylesheet" href="css/index.css" type="text/css">
 </head>
 <body>
 <%
     String status = (String)session.getAttribute("status");
-    String warningString = " ";
+    String warningString = "";
     if (status != null && status.equals("passwordWrong")) {
         warningString = "密码错误";
+    } else if (status != null && status.equals("userNotExist")) {
+        warningString = "用户不存在";
+    } else if (status != null && status.equals("notLogin")) {
+        warningString = "尚未登录，请先登录";
     }
     session.invalidate();
 %>
-<form action="/FinalProject/LoginServlet" method="post">
-    <p>输入用户名：</p><input type="text" name="username"><br/>
-    <p>输入密码：</p><input type="password" name="password"><br/>
-    <p><%=warningString%></p><br/>
-    <input type="submit" value="登录"><br/>
-</form>
+<div class="login-page">
+    <div class="form">
+        <form class="login-form" action="/FinalProject/LoginServlet" method="post">
+            <input class="input" type="text" placeholder="用户名" name="username" required autofocus/>
+            <input class="input" type="password" placeholder="密码" name="password" required/>
+            <input type="submit" value="登录" class="submit">
+            <p class="message">还没有账户？<a href="register.jsp">注册账户</a></p>
+        </form>
+        <p class="warningMessage"><%=warningString%></p>
+    </div>
+</div>
+<footer id="foot">
+    <img src="https://jsjxy.bistu.edu.cn/images/Group.png" alt="">
+    <p id="copyright">JavaWeb实验3 / 在线问卷系统<br>
+        COPYRIGHT @ 软工1801温蟾圆 && 软工1802俞昊洋</p>
+</footer>
 </body>
 </html>

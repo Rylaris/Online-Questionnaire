@@ -7,31 +7,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5c4281c5-ccf1-49bf-9c29-70c1c0affa6f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Java_EE_6_Java_EE_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.annotation.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.ejb.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.jms.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.persistence.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.resource.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.servlet.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.servlet.jsp.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.servlet.jsp.jstl.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.transaction.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/AnswerManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/servlet/LoginServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/main/admin.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/main/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlet/AnalysisServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlet/AnswerQuestionServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlet/DesignQuestionnaireServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlet/GetAnalysisServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlet/GetQuestionnaireServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlet/RegisterServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlet/TestServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/main/admin.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/main/analysis.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/main/design.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/main/question.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/main/result.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/main/user.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/css/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/register.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FinalProject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/common/AnswerManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/common/AnswerManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/common/QuestionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/common/QuestionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/common/UserManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/common/UserManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/servlet/LoginServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/servlet/LoginServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/test/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/test/Test.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/util/Connect.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/classes/util/Connect.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/main/admin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/WEB-INF/main/index.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/FinalProject_war_exploded/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FinalProject/common/AnswerManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FinalProject/common/AnswerManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FinalProject/common/QuestionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FinalProject/common/QuestionManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FinalProject/common/UserManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FinalProject/common/UserManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FinalProject/servlet/LoginServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FinalProject/servlet/LoginServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FinalProject/test/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FinalProject/test/Test.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FinalProject/util/Connect.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FinalProject/util/Connect.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/AnswerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/AnswerManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/QuestionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/QuestionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/UserManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/LoginServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/Connect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Connect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/WEB-INF/main/admin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/WEB-INF/main/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/web/css/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/index.jsp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -57,9 +71,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="CSS File" />
         <option value="Jsp File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -83,6 +98,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -91,6 +107,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web" />
       <recent name="$PROJECT_DIR$/web/WEB-INF/main" />
     </key>
   </component>
@@ -226,7 +243,7 @@
       <updated>1591947892080</updated>
       <workItem from="1591947893896" duration="12898000" />
       <workItem from="1591977867591" duration="237000" />
-      <workItem from="1592024092025" duration="8421000" />
+      <workItem from="1592024092025" duration="41184000" />
     </task>
     <servers />
   </component>

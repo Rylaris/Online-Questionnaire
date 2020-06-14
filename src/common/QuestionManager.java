@@ -48,6 +48,17 @@ public class QuestionManager {
         return result;
     }
 
+    public static int getQuestionnaireNum() throws SQLException {
+        String[] parameter = {};
+        ResultSet resultSet = Connect.executeSelect("SELECT COUNT(*)\n" +
+                "        FROM Questionnaire", parameter);
+        int result = 0;
+        if (resultSet.next()) {
+            result = resultSet.getInt("COUNT(*)");
+        }
+        return result;
+    }
+
     /**
      * 返回给定编号的选项
      *

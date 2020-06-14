@@ -67,6 +67,9 @@ public class UserManager {
      * @return 加密完成的字符串
      */
     public static String sha256(String base) {
+        if (base == null) {
+            return null;
+        }
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(base.getBytes(StandardCharsets.UTF_8));

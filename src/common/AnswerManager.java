@@ -6,6 +6,7 @@ import util.Connect;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 /**
  * @author 软工1801温蟾圆
@@ -27,16 +28,28 @@ public class AnswerManager {
         }
     }
 
+    public static String getUserAnswer(int questionID, String username) throws SQLException {
+        String result = null;
+        String[] parameters = {username, String.valueOf(questionID)};
+        ResultSet resultSet = Connect.executeSelect("SELECT * FROM Answer\n" +
+                "WHERE `user`=?\n" +
+                "AND questionID=?", parameters);
+        if (resultSet.next()) {
+            result = resultSet.getString("answer");
+        }
+        return result;
+    }
+
     /**
      * 回答问题
      *
      * @param questionID 所回答问题的编号
-     * @param responder  回答者
+     * @param responder  回答者的用户名
      * @param answer     所回答的答案
      */
-    public static void answerQuestion(int questionID, User responder, String answer) throws SQLException {
-        String[] parameters = {responder.getUsername(), String.valueOf(questionID), answer};
-        if (UserManager.getUser(responder.getUsername()) == null ||
+    public static void answerQuestion(int questionID, String responder, String answer) throws SQLException {
+        String[] parameters = {responder, String.valueOf(questionID), answer};
+        if (UserManager.getUser(responder) == null ||
                 QuestionManager.getQuestion(questionID) == null) {
             return;
         }
@@ -49,9 +62,9 @@ public class AnswerManager {
      * @param questionID 给定的问题编号
      * @return 返回正确率，大于等于0，小于等于1
      */
-    public static double getCorrectRate(int questionID) throws SQLException {
+    public static String getCorrectRate(int questionID) throws SQLException {
         if (QuestionManager.getQuestion(questionID) == null) {
-            return -1;
+            return null;
         }
         String[] parameters = {String.valueOf(questionID)};
         ResultSet resultSet = Connect.executeSelect("SELECT COUNT(*)\n" +
@@ -64,11 +77,17 @@ public class AnswerManager {
         }
         resultSet = Connect.executeSelect("SELECT COUNT(*)\n" +
                 "FROM Answer, Question\n" +
-                "WHERE Answer.questionID=?\n" +
-                "AND Answer.answer=Question.answer", parameters);
+                "WHERE Answer.questionID=Question.id\n" +
+                "AND Answer.answer=Question.answer\n" +
+                "AND questionID=?", parameters);
         if (resultSet.next()) {
             correctAnswer = resultSet.getInt("COUNT(*)");
         }
-        return correctAnswer / totalAnswer;
+        return formatDouble(correctAnswer / totalAnswer);
+    }
+
+    private static String formatDouble(double s) {
+        DecimalFormat fmt = new DecimalFormat("##0.00");
+        return fmt.format(s);
     }
 }

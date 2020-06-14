@@ -1,6 +1,5 @@
 package servlet;
 
-import com.mysql.cj.log.Log;
 import common.UserManager;
 import model.User;
 
@@ -29,23 +28,48 @@ public class LoginServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
         PrintWriter out = resp.getWriter();
+
+        String user = req.getParameter("user");
+        String mode = req.getParameter("mode");
+        if (user != null) {
+            req.setAttribute("user", user);
+            if ("main".equals(mode)) {
+                req.getRequestDispatcher("/WEB-INF/main/admin.jsp").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("/WEB-INF/main/user.jsp").forward(req, resp);
+            }
+        }
+
+        // 接收index.jsp传递过来的参数
         String username = req.getParameter("username");
         String password = UserManager.sha256(req.getParameter("password"));
+
         User target = null;
         try {
             target = UserManager.getUser(username);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        // 进行错误判断和处理
         if (target == null) {
-            out.print("用户不存在，请先进行注册");
+            // 设置查无用户错误信息，重定向回index.jsp
+            req.getSession().setAttribute("status", "userNotExist");
+            resp.sendRedirect("/FinalProject/index.jsp");
         } else if (!password.equals(target.getPassword())) {
-            out.print("输入密码错误");
+            // 设置密码错误错误信息，重定向回index.jsp
             req.getSession().setAttribute("status", "passwordWrong");
             resp.sendRedirect("/FinalProject/index.jsp");
         } else {
-            out.print("success");
-            req.getRequestDispatcher("/WEB-INF/main/admin.html").forward(req, resp);
+            // 根据管理员或用户身份进入不同的界面
+            if (target.isAdministrator()) {
+                req.setAttribute("user", target.getUsername());
+                req.getRequestDispatcher("/WEB-INF/main/admin.jsp").forward(req, resp);
+            } else {
+                // 传递用户名参数给user.jsp
+                req.setAttribute("user", target.getUsername());
+                req.getRequestDispatcher("/WEB-INF/main/user.jsp").forward(req, resp);
+            }
+
         }
     }
 

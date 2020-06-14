@@ -48,7 +48,7 @@ public class Connect {
     public static int executeUpdate(String statement, String[] parameters) throws SQLException {
         return getPrepared(statement, parameters).executeUpdate();
     }
-    
+
     private static PreparedStatement getPrepared(String statement, String[] parameters) throws SQLException {
         Connect connect = new Connect();
         Connection connection = connect.getConnection("JavaWeb", "root", "zxcvbnm123");

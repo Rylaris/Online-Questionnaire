@@ -1,0 +1,25 @@
+body {
+    background: linear-gradient(to left, #76b852, #8DC26F);
+    font-family: -apple-system, sans-serif;
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+
+#foot {
+    height: 50px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#foot img {
+    height: 50px;
+    float: left;
+}
+
+#copyright {
+    padding-left: 80%;
+    font-size: 10px;
+    color: white;
+}
