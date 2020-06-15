@@ -60,7 +60,6 @@
 %>
 <div class="login-page">
     <div class="form">
-        <h1><%=user%></h1>
         <h1><%=questionnaireDescription%></h1>
         <h2><%=questionDescription%></h2>
         <form class="login-form" action="/FinalProject/AnswerQuestionServlet" method="post">

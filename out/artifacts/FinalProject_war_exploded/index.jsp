@@ -14,8 +14,11 @@
 </head>
 <body>
 <%
+    // 接收异常状态信息
     String status = (String)session.getAttribute("status");
     String warningString = "";
+
+    // 异常处理
     if (status != null && status.equals("passwordWrong")) {
         warningString = "密码错误";
     } else if (status != null && status.equals("userNotExist")) {
@@ -23,6 +26,7 @@
     } else if (status != null && status.equals("notLogin")) {
         warningString = "尚未登录，请先登录";
     }
+
     session.invalidate();
 %>
 <div class="login-page">

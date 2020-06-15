@@ -229,4 +229,18 @@ public class QuestionManager {
             Connect.executeUpdate("INSERT INTO `QQ`(`questionnaireID`,`questionID`,`order`) VALUES (?, ?, ?)", parameters);
         }
     }
+
+    public static int questionNumMakeByUser(String username) throws SQLException {
+        String[] parameters = {username};
+        ResultSet resultSet = Connect.executeSelect("SELECT COUNT(*)\n" +
+                "        FROM Questionnaire, QQ\n" +
+                "        WHERE Questionnaire.id=QQ.questionnaireID\n" +
+                "        AND maker=?", parameters);
+        int result = 0;
+        if (resultSet.next()) {
+            result = resultSet.getInt("COUNT(*)");
+        }
+        return result;
+
+    }
 }

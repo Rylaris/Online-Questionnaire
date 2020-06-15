@@ -40,4 +40,9 @@ public class User {
     public void setAdministrator(boolean administrator) {
         isAdministrator = administrator;
     }
+
+    @Override
+    public String toString() {
+        return "用户名：" + username + "\n管理员：" + isAdministrator;
+    }
 }

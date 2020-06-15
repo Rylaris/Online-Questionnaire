@@ -9,7 +9,7 @@ import java.sql.*;
 public class Connect {
     private Connection connect = null;
 
-    public Connect() {
+    private Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -17,7 +17,7 @@ public class Connect {
         }
     }
 
-    public Connection getConnection(String dbName, String username, String password) {
+    private Connection getConnection(String dbName, String username, String password) {
         try {
             connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbName
                     + "?user=" + username + "&password=" + password);
@@ -43,15 +43,14 @@ public class Connect {
      *
      * @param statement  更新语句
      * @param parameters 更新语句中的参数
-     * @return 返回更新结果
      */
-    public static int executeUpdate(String statement, String[] parameters) throws SQLException {
-        return getPrepared(statement, parameters).executeUpdate();
+    public static void executeUpdate(String statement, String[] parameters) throws SQLException {
+        getPrepared(statement, parameters).executeUpdate();
     }
 
     private static PreparedStatement getPrepared(String statement, String[] parameters) throws SQLException {
         Connect connect = new Connect();
-        Connection connection = connect.getConnection("JavaWeb", "root", "zxcvbnm123");
+        Connection connection = connect.getConnection("2018011135", "root", "zxcvbnm123");
         PreparedStatement sql = connection.prepareStatement(statement);
         for (int i = 0; i < parameters.length; i++) {
             sql.setString(i + 1, parameters[i]);
