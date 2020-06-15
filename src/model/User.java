@@ -8,7 +8,8 @@ public class User {
     private String password;
     private boolean isAdministrator;
 
-    public User() {}
+    public User() {
+    }
 
     public User(String username, String password, boolean isAdministrator) {
         this.username = username;

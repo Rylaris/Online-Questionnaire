@@ -12,7 +12,8 @@ public class Question {
     private String answer;
     private ArrayList options;
 
-    public Question() {}
+    public Question() {
+    }
 
     public Question(int id, String description, String answer, ArrayList options) {
         this.id = id;
@@ -55,5 +56,18 @@ public class Question {
 
     public void addOptions(Option newOption) {
         options.add(newOption);
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+        result += "问题描述：" + description + "\n";
+        result += "问题ID：" + id + "\n";
+        for (int i = 0; i < options.size(); i++) {
+            Option option = (Option) options.get(i);
+            result += option.toString();
+        }
+        result += "问题答案：" + answer + "\n";
+        return result;
     }
 }

@@ -14,8 +14,11 @@
 </head>
 <body>
 <%
+    // 接收异常状态信息
     String status = (String)session.getAttribute("status");
     String warningString = "";
+
+    // 异常处理
     if (status != null && status.equals("passwordWrong")) {
         warningString = "两次输入的密码不一致，请重新输入。";
     } else if (status != null && status.equals("userExist")) {
@@ -23,6 +26,7 @@
     } else if (status != null && status.equals("registerSuccess")) {
         warningString = "注册成功";
     }
+
     session.invalidate();
 %>
 <div class="login-page">
@@ -32,7 +36,7 @@
             <input class="input" type="password" placeholder="密码" name="password" required/>
             <input class="input" type="password" placeholder="再次输入密码" name="confirmPassword" required/>
             <input type="submit" value="注册" class="submit">
-            <p class="message">注册成功，<a href="index.jsp">返回登录</a></p>
+            <p class="message">如需注册管理员，请联系数据库管理员，<a href="index.jsp">返回登录</a></p>
         </form>
         <p class="warningMessage"><%=warningString%></p>
     </div>

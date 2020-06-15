@@ -1,7 +1,6 @@
 package common;
 
 import model.Question;
-import model.User;
 import util.Connect;
 
 import java.sql.ResultSet;
@@ -28,6 +27,14 @@ public class AnswerManager {
         }
     }
 
+    /**
+     * 返回指定用户作答指定题目的答案
+     *
+     * @param questionID 指定的题目
+     * @param username   指定的用户
+     * @return 用户的作答
+     * @throws SQLException
+     */
     public static String getUserAnswer(int questionID, String username) throws SQLException {
         String result = null;
         String[] parameters = {username, String.valueOf(questionID)};
@@ -86,6 +93,12 @@ public class AnswerManager {
         return formatDouble(correctAnswer / totalAnswer);
     }
 
+    /**
+     * 返回浮点数保留两位的字符串形式
+     *
+     * @param s 浮点数
+     * @return 保留两位的字符串
+     */
     private static String formatDouble(double s) {
         DecimalFormat fmt = new DecimalFormat("##0.00");
         return fmt.format(s);

@@ -1,5 +1,7 @@
 package servlet;
 
+import model.Questionnaire;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,10 +14,10 @@ import java.io.IOException;
  * @date 2020/06/14
  */
 
-@WebServlet("/DesignQuestionnaireServlet")
-public class DesignQuestionnaireServlet extends HttpServlet {
+@WebServlet("/FinishDesignServlet")
+public class FinishDesignServlet extends HttpServlet {
 
-    public DesignQuestionnaireServlet() {
+    public FinishDesignServlet() {
         super();
     }
 
@@ -26,17 +28,14 @@ public class DesignQuestionnaireServlet extends HttpServlet {
         resp.setCharacterEncoding("utf-8");
 
         // 接收参数
+        Questionnaire questionnaire = (Questionnaire) getServletContext().getAttribute("questionnaire");
         String user = req.getParameter("user");
-        if (user == null) {
-            // 对应直接访问
-            req.getSession().setAttribute("status", "notLogin");
-            resp.sendRedirect("/FinalProject/index.jsp");
-        } else {
-            // 进入设计问卷页面，同时设置为命名模式，首先对问卷进行命名
-            req.setAttribute("user", user);
-            req.setAttribute("mode", "name");
-            req.getRequestDispatcher("/WEB-INF/main/design.jsp").forward(req, resp);
-        }
+
+        // 设置参数，以预览模式进入查看界面
+        req.setAttribute("questionnaire", questionnaire);
+        req.setAttribute("user", user);
+        req.setAttribute("mode", "preview");
+        req.getRequestDispatcher("/WEB-INF/main/result.jsp").forward(req, resp);
     }
 
     @Override

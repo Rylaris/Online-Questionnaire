@@ -1,21 +1,25 @@
 package servlet;
 
+import common.QuestionManager;
+import model.Questionnaire;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * @author 软工1801温蟾圆
  * @date 2020/06/14
  */
 
-@WebServlet("/DesignQuestionnaireServlet")
-public class DesignQuestionnaireServlet extends HttpServlet {
+@WebServlet("/PostServlet")
+public class PostServlet extends HttpServlet {
 
-    public DesignQuestionnaireServlet() {
+    public PostServlet() {
         super();
     }
 
@@ -25,18 +29,29 @@ public class DesignQuestionnaireServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
 
-        // 接收参数
+        // 获取参数
         String user = req.getParameter("user");
-        if (user == null) {
-            // 对应直接访问
-            req.getSession().setAttribute("status", "notLogin");
-            resp.sendRedirect("/FinalProject/index.jsp");
-        } else {
-            // 进入设计问卷页面，同时设置为命名模式，首先对问卷进行命名
+        Questionnaire questionnaire = (Questionnaire) getServletContext().getAttribute("questionnaire");
+
+        // 如果问卷不完整，回到设计页面以命名模式重新设计
+        if (questionnaire.getDescription() == null || questionnaire.getQuestions().isEmpty()) {
+            req.getSession().setAttribute("status", "empty");
             req.setAttribute("user", user);
             req.setAttribute("mode", "name");
             req.getRequestDispatcher("/WEB-INF/main/design.jsp").forward(req, resp);
         }
+
+        // 向数据库中添加问卷
+        try {
+            QuestionManager.addQuestionnaire(questionnaire);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // 设置参数，进入成功界面
+        req.setAttribute("questionnaire", questionnaire);
+        req.setAttribute("user", user);
+        req.getRequestDispatcher("/WEB-INF/main/success.jsp").forward(req, resp);
     }
 
     @Override

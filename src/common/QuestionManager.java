@@ -48,10 +48,40 @@ public class QuestionManager {
         return result;
     }
 
+    /**
+     * @return 返回数据库中问卷的数量，用于确定新问卷的ID
+     */
     public static int getQuestionnaireNum() throws SQLException {
         String[] parameter = {};
         ResultSet resultSet = Connect.executeSelect("SELECT COUNT(*)\n" +
                 "        FROM Questionnaire", parameter);
+        int result = 0;
+        if (resultSet.next()) {
+            result = resultSet.getInt("COUNT(*)");
+        }
+        return result;
+    }
+
+    /**
+     * @return 返回数据库中问题的数量，用于确定新问题的ID
+     */
+    public static int getAllQuestionNum() throws SQLException {
+        String[] parameter = {};
+        ResultSet resultSet = Connect.executeSelect("SELECT COUNT(*)\n" +
+                "        FROM Question", parameter);
+        int result = 0;
+        if (resultSet.next()) {
+            result = resultSet.getInt("COUNT(*)");
+        }
+        return result;
+    }
+
+    /**
+     * @return 返回数据库中选项的数量，用于确定新选项的ID
+     */
+    public static int getAllOptionNum() throws SQLException {
+        String[] parameter = {};
+        ResultSet resultSet = Connect.executeSelect("SELECT COUNT(*) FROM `Option`", parameter);
         int result = 0;
         if (resultSet.next()) {
             result = resultSet.getInt("COUNT(*)");
@@ -144,7 +174,7 @@ public class QuestionManager {
      * @param newOption 待插入的选项
      */
     public static void addOption(Option newOption) throws SQLException {
-        int id = newOption.getId();
+        int id = getAllOptionNum() + 1;
         String description = newOption.getDescription();
         String[] parameters = {String.valueOf(id), description};
         if (getOption(id) != null) {
@@ -159,7 +189,7 @@ public class QuestionManager {
      * @param newQuestion 待插入的题目
      */
     public static void addQuestion(Question newQuestion) throws SQLException {
-        int id = newQuestion.getId();
+        int id = getAllQuestionNum() + 1;
         String description = newQuestion.getDescription();
         String answer = newQuestion.getAnswer();
         String[] parameters = {String.valueOf(id), description, answer};
@@ -169,7 +199,7 @@ public class QuestionManager {
         Connect.executeUpdate("INSERT INTO `Question`(id,description,answer) VALUES (?, ?, ?)", parameters);
         for (int i = 0; i < newQuestion.getOptions().size(); i++) {
             Option newOption = (Option) newQuestion.getOptions().get(i);
-            parameters = new String[]{String.valueOf(id), String.valueOf(newOption.getId()), String.valueOf(i + 1)};
+            parameters = new String[]{String.valueOf(id), String.valueOf(getAllOptionNum() + 1), String.valueOf(i + 1)};
             addOption(newOption);
             Connect.executeUpdate("INSERT INTO `OQ`(`questionID`,`optionID`,`order`) VALUES (?, ?, ?)", parameters);
         }
@@ -181,7 +211,7 @@ public class QuestionManager {
      * @param newQuestionnaire 待插入的问卷
      */
     public static void addQuestionnaire(Questionnaire newQuestionnaire) throws SQLException {
-        int id = newQuestionnaire.getId();
+        int id = getQuestionnaireNum() + 1;
         String description = newQuestionnaire.getDescription();
         User maker = newQuestionnaire.getMaker();
         if (!maker.isAdministrator()) {
@@ -194,7 +224,7 @@ public class QuestionManager {
         Connect.executeUpdate("INSERT INTO `Questionnaire`(`id`,`description`,`maker`) VALUES (?, ?, ?)", parameters);
         for (int i = 0; i < newQuestionnaire.getQuestions().size(); i++) {
             Question newQuestion = (Question) newQuestionnaire.getQuestions().get(i);
-            parameters = new String[]{String.valueOf(id), String.valueOf(newQuestion.getId()), String.valueOf(i + 1)};
+            parameters = new String[]{String.valueOf(id), String.valueOf(getAllQuestionNum() + 1), String.valueOf(i + 1)};
             addQuestion(newQuestion);
             Connect.executeUpdate("INSERT INTO `QQ`(`questionnaireID`,`questionID`,`order`) VALUES (?, ?, ?)", parameters);
         }

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 /**
@@ -25,51 +24,53 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 设置编码防止乱码
         req.setCharacterEncoding("utf-8");
-		resp.setCharacterEncoding("utf-8");
-        PrintWriter out = resp.getWriter();
+        resp.setCharacterEncoding("utf-8");
 
+        // 管理员如果需要返回菜单需要携带mode参数请求LoginServlet，由LoginServlet重新分发
         String user = req.getParameter("user");
         String mode = req.getParameter("mode");
+        String mainMode = "main";
         if (user != null) {
             req.setAttribute("user", user);
-            if ("main".equals(mode)) {
+            if (mainMode.equals(mode)) {
                 req.getRequestDispatcher("/WEB-INF/main/admin.jsp").forward(req, resp);
             } else {
                 req.getRequestDispatcher("/WEB-INF/main/user.jsp").forward(req, resp);
             }
         }
 
-        // 接收index.jsp传递过来的参数
+        // 接收index.jsp传递过来的登录参数
         String username = req.getParameter("username");
         String password = UserManager.sha256(req.getParameter("password"));
 
         User target = null;
+
+        // 在数据库中寻找用户输入的用户名对应的用户
         try {
             target = UserManager.getUser(username);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // 进行错误判断和处理
+
+        // 错误判断和处理
         if (target == null) {
-            // 设置查无用户错误信息，重定向回index.jsp
+            // 用户输入的用户名没有对应的用户，设置查无用户错误信息，重定向回index.jsp
             req.getSession().setAttribute("status", "userNotExist");
             resp.sendRedirect("/FinalProject/index.jsp");
         } else if (!password.equals(target.getPassword())) {
-            // 设置密码错误错误信息，重定向回index.jsp
+            // 用户输入密码不匹配，设置密码错误错误信息，重定向回index.jsp
             req.getSession().setAttribute("status", "passwordWrong");
             resp.sendRedirect("/FinalProject/index.jsp");
         } else {
-            // 根据管理员或用户身份进入不同的界面
+            // 设置用户名作为参数，管理员进入菜单，用户直接进入选择题目界面
+            req.setAttribute("user", target.getUsername());
             if (target.isAdministrator()) {
-                req.setAttribute("user", target.getUsername());
                 req.getRequestDispatcher("/WEB-INF/main/admin.jsp").forward(req, resp);
             } else {
-                // 传递用户名参数给user.jsp
-                req.setAttribute("user", target.getUsername());
                 req.getRequestDispatcher("/WEB-INF/main/user.jsp").forward(req, resp);
             }
-
         }
     }
 

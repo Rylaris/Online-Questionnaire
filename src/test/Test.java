@@ -37,7 +37,7 @@ public class Test {
 //        QuestionManager.addQuestionnaire(questionnaire);
 //        Questionnaire test = QuestionManager.getQuestionnaire(1);
 
-        System.out.print(AnswerManager.getCorrectRate(1));
+        System.out.print(QuestionManager.getAllOptionNum());
         return;
     }
 }

@@ -16,25 +16,37 @@
 </head>
 <body>
 <%
+    // 接收传递过来的错误信息
+    String status = (String)session.getAttribute("status");
+    String warningString = "";
+
+    // 接收参数
     String user = (String) request.getAttribute("user");
     Questionnaire questionnaire = (Questionnaire) request.getAttribute("questionnaire");
     int currentQuestion = (int) request.getAttribute("currentQuestion");
+
     Question question = null;
+
+    // 需要内嵌的HTML片段
     String questionnaireDescription = questionnaire.getDescription();
-    String warningString = "";
-    if (questionnaire.getQuestions().isEmpty()) {
-        warningString = "问卷还是空的，看看别的问卷吧。";
-    } else {
-        question = (Question) questionnaire.getQuestions().get(currentQuestion);
-    }
-    String questionDescription = (currentQuestion + 1) + "." + question.getDescription();
-    String status = (String)session.getAttribute("status");
+    String questionDescription = "";
+    String content = "";
+
+    // 异常处理
     if (status != null && status.equals("questionnaireIDNull")) {
         warningString = "请输入正确的问卷编号";
     } else if (status != null && status.equals("questionnaireNotExist")) {
         warningString = "问卷不存在，请填写正确的问卷编号";
     }
-    String content = "";
+
+    if (questionnaire.getQuestions().isEmpty()) {
+        warningString = "问卷还是空的，看看别的问卷吧。";
+    } else {
+        question = (Question) questionnaire.getQuestions().get(currentQuestion);
+    }
+    questionDescription = (currentQuestion + 1) + "." + question.getDescription();
+
+    // 显示完整的题目，内嵌到HTML中
     for (int i = 0; i < question.getOptions().size(); i++) {
         Option option = (Option) question.getOptions().get(i);
         char order = (char) (i + 65);
@@ -43,6 +55,7 @@
         content += option.getDescription();
         content += "</p></br>";
     }
+
     session.invalidate();
 %>
 <div class="login-page">
@@ -52,7 +65,7 @@
         <h2><%=questionDescription%></h2>
         <form class="login-form" action="/FinalProject/AnswerQuestionServlet" method="post">
             <%=content%>
-            <input class="input" type="text" placeholder="输入答案" name="answer" required autofocus/>
+            <input class="input" type="text" placeholder="输入答案" name="answer" required autofocus autocomplete="off"/>
             <input type="submit" value="提交" class="submit"/>
             <input type="text" value="<%=questionnaire.getId()%>" name="questionnaireID" style="display: none">
             <input type="text" value="<%=question.getId()%>" name="questionID" style="display: none">

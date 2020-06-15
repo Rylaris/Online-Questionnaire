@@ -1,7 +1,6 @@
 <%@ page import="model.Questionnaire" %>
 <%@ page import="model.Question" %>
 <%@ page import="model.Option" %>
-<%@ page import="common.QuestionManager" %>
 <%@ page import="common.AnswerManager" %>
 <%@ page import="java.sql.SQLException" %><%--
   Created by IntelliJ IDEA.
@@ -19,21 +18,44 @@
 </head>
 <body>
 <%
-    String content = "";
-    String warningString = "";
-
+    // 接收参数
     String user = (String) request.getAttribute("user");
     Questionnaire questionnaire = (Questionnaire) request.getAttribute("questionnaire");
     String mode = (String) request.getAttribute("mode");
-    String h1 = "", action = "";
+
+    // 需要内嵌的HTML片段
+    String content = "";
+    String warningString = "";
+    String nextStep = "";
+    String message = "";
+    String h1 = "";
+    String action = "";
+
+    // 将传递到本页面的问卷作为参数传递给下一个Servlet
+    application.setAttribute("questionnaire", questionnaire);
+
+
     if (mode!= null && mode.equals("analysis")) {
+        // 分析试卷模式
         h1 = "分析结果";
         action = "/FinalProject/AnalysisServlet";
+        nextStep = "重新选择问卷";
+        message = "重新选择问卷将回到问卷编号填写页面";
+    } else if (mode!= null && mode.equals("preview")) {
+        // 预览试卷模式
+        h1 = "预览试卷";
+        action = "/FinalProject/PostServlet";
+        nextStep = "发布问卷";
+        message = "发布问卷将正式将问卷添加到题库";
     } else {
+        // 查看答案模式
         h1 = "查看答案";
         action = "/FinalProject/LoginServlet";
+        nextStep = "重新选择问卷";
+        message = "重新选择问卷将回到问卷编号填写页面";
     }
 
+    // 根据不同的显示模式拼接需要显示的问卷内容
     for (int i = 0; i < questionnaire.getQuestions().size(); i++) {
         Question question = (Question) questionnaire.getQuestions().get(i);
         content += "<h2>" + (i + 1) + ". " + question.getDescription() + "</h2>";
@@ -46,7 +68,7 @@
             content += "</p></br>";
         }
         content += "<p class=\"option\">";
-        if (mode!= null && mode.equals("analysis")) {
+        if (mode!= null && (mode.equals("analysis") || mode.equals("preview"))) {
             content += "答案：" + question.getAnswer() + "</p></br>";
         } else {
             content += "正确答案：" + question.getAnswer() + "</p></br>";
@@ -55,6 +77,8 @@
         try {
             if (mode!= null && mode.equals("analysis")) {
                 content += "正确率：" + AnswerManager.getCorrectRate(question.getId()) + "</p></br>";
+            } else if (mode!= null && mode.equals("preview")) {
+                content += "";
             } else {
                 content += "您的答案：" + AnswerManager.getUserAnswer(question.getId(), user) + "</p></br>";
             }
@@ -70,9 +94,9 @@
         <h1><%=h1%></h1>
         <form class="login-form" action=<%=action%> method="post">
             <%=content%>
-            <input type="submit" value="重新选择问卷" class="submit"/>
+            <input type="submit" value=<%=nextStep%> class="submit"/>
             <input type="text" value="<%=user%>" name="user" style="display: none">
-            <p class="message">重新选择问卷将回到问卷编号填写页面</p>
+            <p class="message"><%=message%></p>
         </form>
         <p class="warningMessage"><%=warningString%></p>
     </div>

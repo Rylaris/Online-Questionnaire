@@ -8,7 +8,8 @@ public class Option {
     private int id;
     private String description;
 
-    public Option() {}
+    public Option() {
+    }
 
     public Option(int id, String description) {
         this.id = id;
@@ -29,5 +30,10 @@ public class Option {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "选项ID：" + id + "\n" + "选项描述：" + description + "\n";
     }
 }

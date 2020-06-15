@@ -30,7 +30,7 @@ public class Connect {
     /**
      * 执行查询语句
      *
-     * @param statement 查询语句
+     * @param statement  查询语句
      * @param parameters 查询语句中的参数
      * @return 返回查询结果
      */
@@ -41,7 +41,7 @@ public class Connect {
     /**
      * 执行更新语句
      *
-     * @param statement 更新语句
+     * @param statement  更新语句
      * @param parameters 更新语句中的参数
      * @return 返回更新结果
      */

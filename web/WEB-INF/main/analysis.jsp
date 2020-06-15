@@ -14,14 +14,14 @@
 </head>
 <body>
 <%
-    // 接收LoginServlet传递归来的参数
+    // 接收参数
     String user = (String) request.getAttribute("user");
 
-    // 接收GetQuestionnaireServlet传递过来的错误信息
+    // 接收传递过来的错误信息
     String status = (String) session.getAttribute("status");
     String warningString = "";
 
-    // 判断是否有异常状态并显示对应的提示信息
+    // 异常处理
     if (status != null && status.equals("questionnaireIDNull")) {
         warningString = "请输入正确的问卷编号";
     } else if (status != null && status.equals("questionnaireNotExist")) {

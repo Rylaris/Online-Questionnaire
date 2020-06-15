@@ -15,8 +15,21 @@
 </head>
 <body>
 <%
-    // 接收LoginServlet传递归来的参数
+    // 接收错误信息
+    String status = (String) session.getAttribute("status");
+    String warningString = "";
+
+    // 接收参数
     String user = (String) request.getAttribute("user");
+
+    // 异常处理
+    if (status != null && status.equals("questionnaireIDNull")) {
+        warningString = "请输入正确的问卷编号";
+    } else if (status != null && status.equals("questionnaireNotExist")) {
+        warningString = "问卷不存在，请输入正确的问卷编号";
+    } else if (status != null && status.equals("hasAnswer")) {
+        warningString = "不能对问卷重复作答";
+    }
 
     // 对于管理员，额外显示返回菜单
     String content = "";
@@ -28,18 +41,6 @@
         e.printStackTrace();
     }
 
-    // 接收GetQuestionnaireServlet传递过来的错误信息
-    String status = (String) session.getAttribute("status");
-    String warningString = "";
-
-    // 判断是否有异常状态并显示对应的提示信息
-    if (status != null && status.equals("questionnaireIDNull")) {
-        warningString = "请输入正确的问卷编号";
-    } else if (status != null && status.equals("questionnaireNotExist")) {
-        warningString = "问卷不存在，请输入正确的问卷编号";
-    } else if (status != null && status.equals("hasAnswer")) {
-        warningString = "不能对问卷重复作答";
-    }
     session.invalidate();
 %>
 <div class="login-page">

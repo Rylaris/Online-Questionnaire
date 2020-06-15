@@ -18,16 +18,32 @@
 </head>
 <body>
 <%
-    // 接收LoginServlet传递归来的参数
+    // 接收传递过来的错误信息
+    String status = (String) session.getAttribute("status");
+    String warningString = "";
+
+    // 接收参数
     String user = (String) request.getAttribute("user");
     String mode = (String) request.getAttribute("mode");
+
     Questionnaire questionnaire = null;
 
+    // 需要根据不同情况进行内嵌的HTML片段
     String h1 = "";
     String message = "";
     String placeholder = "";
+    String addOptionButton = "";
+    String nextStep = "";
+    String answerInput = "";
+
+    // 异常处理
+    if (status != null && status.equals("empty")) {
+        warningString = "问卷不完整，请重新设计";
+    }
 
     if (mode.equals("name")) {
+        // 问卷命名阶段
+        // 初始化问卷
         questionnaire = new Questionnaire();
         try {
             questionnaire.setMaker(UserManager.getUser(user));
@@ -36,38 +52,45 @@
             e.printStackTrace();
         }
         questionnaire.setQuestions(new ArrayList());
+
+        // 设置需要内嵌的元素
         message = "首先填写问卷的标题，形如：\"天文学知识小测试\"";
         placeholder = "问卷标题";
+        nextStep = "下一步";
     } else {
+        // 设计题目阶段
+        // 获取尚未设计完毕的问卷
         questionnaire = (Questionnaire) request.getAttribute("questionnaire");
-        h1 = "<h1>" + questionnaire.getDescription() + "</h1>";
-        message = "设计问卷的问题";
-        placeholder = "问题描述";
-    }
-    application.setAttribute("questionnaire", questionnaire);
-    // 接收GetQuestionnaireServlet传递过来的错误信息
-    String status = (String) session.getAttribute("status");
-    String warningString = "";
 
-    // 判断是否有异常状态并显示对应的提示信息
-    if (status != null && status.equals("questionnaireIDNull")) {
-        warningString = "请输入正确的问卷编号";
-    } else if (status != null && status.equals("questionnaireNotExist")) {
-        warningString = "问卷不存在，请输入正确的问卷编号";
+        // 设置需要内嵌的元素
+        h1 = "<h1>" + questionnaire.getDescription() + "</h1>";
+        message = "设计问卷的问题，请注意，选择结束设计不会保存当前正在设计的题目。";
+        placeholder = "问题描述";
+        addOptionButton = "<button type=\"button\" class=\"submit\" style=\"margin-bottom: 15px\" onclick=\"addOption()\">添加选项</button>";
+        nextStep = "下一题";
+        answerInput = "<input class=\"input\" type=\"text\" placeholder=\"答案\" name=\"answer\" required autocomplete=\"off\"/>";
     }
+
+    // 将问卷设置为参数，传递给Servlet，由Servlet完善问卷
+    application.setAttribute("questionnaire", questionnaire);
+
     session.invalidate();
 %>
 <div class="login-page">
     <div class="form">
-        <form class="login-form" action="/FinalProject/TestServlet" id="mainForm" method="post">
+        <form class="login-form" action="/FinalProject/DesignQuestionServlet" id="mainForm" method="post">
             <%=h1%>
-            <input class="input" type="text" placeholder=<%=placeholder%> name="description" required autofocus/>
-            <input class="input" type="text" placeholder="答案" name="answer" required/>
-            <button type="button" class="submit" style="margin-bottom: 15px" onclick="addOption()">添加选项</button>
-            <input type="submit" value="下一步" class="submit"/>
+            <input class="input" type="text" placeholder=<%=placeholder%> name="description" required autofocus autocomplete="off"/>
+            <%=answerInput%>
+            <%=addOptionButton%>
+            <input type="submit" value=<%=nextStep%> class="submit"/>
             <input type="text" value="<%=user%>" name="user" style="display: none">
-            <p class="message"><%=message%></p>
         </form>
+        <form class="login-form" action="/FinalProject/FinishDesignServlet" method="post">
+            <input type="submit" value="结束设计" class="submit"/>
+            <input type="text" value="<%=user%>" name="user" style="display: none">
+        </form>
+        <p class="message"><%=message%></p>
         <p class="warningMessage"><%=warningString%></p>
     </div>
 </div>
@@ -79,15 +102,21 @@
 </body>
 </html>
 <script>
+    // 添加新的题目选项
     function addOption(){
-        var newItem=document.createElement("input")
-        newItem.setAttribute("class", "input")
-        newItem.setAttribute("type", "text")
-        newItem.setAttribute("placeholder", "选项")
-        newItem.setAttribute("name", "option")
-        newItem.setAttribute("required", "true")
-        var list=document.getElementById("mainForm")
-        list.insertBefore(newItem,list.childNodes[list.childNodes.length - 10]);
-    }
+        // 初始化HTML元素
+        var newItem=document.createElement("input");
+        newItem.setAttribute("class", "input");
+        newItem.setAttribute("type", "text");
+        newItem.setAttribute("placeholder", "选项");
+        newItem.setAttribute("name", "option");
+        newItem.setAttribute("required", "true");
+        newItem.setAttribute("autocomplete", "off");
 
+        // 获取父节点
+        var list=document.getElementById("mainForm");
+
+        // 插入到正确的位置
+        list.insertBefore(newItem,list.childNodes[list.childNodes.length - 8]);
+    }
 </script>

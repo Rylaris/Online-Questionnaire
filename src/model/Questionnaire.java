@@ -12,7 +12,8 @@ public class Questionnaire {
     private User maker;
     private ArrayList questions;
 
-    public Questionnaire() {}
+    public Questionnaire() {
+    }
 
     public Questionnaire(int id, String description, User maker, ArrayList questions) {
         this.id = id;
@@ -55,5 +56,18 @@ public class Questionnaire {
 
     public void addQuestions(Question newOption) {
         questions.add(newOption);
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+        result += "问卷标题：" + description + "\n";
+        result += "问卷ID：" + id + "\n";
+        result += "出题人：" + maker.getUsername() + "\n";
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = (Question) questions.get(i);
+            result += question.toString();
+        }
+        return result;
     }
 }

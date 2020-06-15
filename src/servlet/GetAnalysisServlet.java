@@ -1,11 +1,7 @@
 package servlet;
 
-import common.AnswerManager;
 import common.QuestionManager;
-import common.UserManager;
-import model.Question;
 import model.Questionnaire;
-import model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 /**
@@ -30,35 +25,40 @@ public class GetAnalysisServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 设置编码防止乱码
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
 
-        PrintWriter out = resp.getWriter();
-
-        // 接收question.jsp传递的参数
+        // 接收参数
         String user = req.getParameter("user");
         String questionnaireID = req.getParameter("questionnaireID");
         if (user == null) {
+            // 对应直接输入域名
             req.getSession().setAttribute("status", "notLogin");
             resp.sendRedirect("/FinalProject/index.jsp");
         } else {
             Questionnaire questionnaire = null;
 
-            // 如果问卷编号无效返回user.jsp并传递错误信息
+            // 如果问卷编号无效返回选择题号页面并传递错误信息
             if (questionnaireID == null || "".equals(questionnaireID) || !isValid(questionnaireID)) {
                 req.getSession().setAttribute("status", "questionnaireIDNull");
                 req.getRequestDispatcher("/WEB-INF/main/analysis.jsp").forward(req, resp);
             }
+
+            // 获取用户输入的问卷
             try {
                 questionnaire = QuestionManager.getQuestionnaire(Integer.parseInt(questionnaireID));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
+            // 如果问卷不存在，返回选择题号页面并传递错误信息
             if (questionnaire == null) {
                 req.getSession().setAttribute("status", "questionnaireNotExist");
                 req.getRequestDispatcher("/WEB-INF/main/analysis.jsp").forward(req, resp);
             }
 
+            // 一切正常设置参数以分析模式进入结果页面
             req.setAttribute("questionnaire", questionnaire);
             req.setAttribute("user", user);
             req.setAttribute("mode", "analysis");
