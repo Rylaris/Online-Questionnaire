@@ -33,7 +33,6 @@ public class AnswerManager {
      * @param questionID 指定的题目
      * @param username   指定的用户
      * @return 用户的作答
-     * @throws SQLException
      */
     public static String getUserAnswer(int questionID, String username) throws SQLException {
         String result = null;

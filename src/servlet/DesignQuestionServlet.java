@@ -51,9 +51,9 @@ public class DesignQuestionServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            for (int i = 0; i < options.length; i++) {
+            for (String option : options) {
                 Option newOption = new Option();
-                newOption.setDescription(options[i]);
+                newOption.setDescription(option);
                 try {
                     newOption.setId(QuestionManager.getAllOptionNum() + 1);
                 } catch (SQLException e) {
